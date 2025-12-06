@@ -2,77 +2,78 @@
 
 🎮 **End-to-End Machine Learning Project for Gaming User Segmentation**
 
-Bu proje, oyun sektöründe kullanıcı segmentasyonu için uçtan uca bir makine öğrenmesi çözümüdür. Kullanıcıları davranışsal ve demografik özelliklerine göre anlamlı segmentlere ayırarak, her segment için özelleştirilmiş stratejiler geliştirmeyi amaçlar.
+This project is an end-to-end machine learning solution for user segmentation in the gaming industry. It segments users into meaningful groups based on behavioral and demographic features, enabling personalized strategies for each segment.
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [Proje Özeti](#proje-özeti)
-- [Problem Tanımı](#problem-tanımı)
+- [Project Overview](#project-overview)
+- [Problem Statement](#problem-statement)
 - [Dataset](#dataset)
-- [Proje Yapısı](#proje-yapısı)
-- [Kullanılan Teknolojiler](#kullanılan-teknolojiler)
-- [Kurulum](#kurulum)
-- [Kullanım](#kullanım)
-- [Notebook'lar](#notebooklar)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Notebooks](#notebooks)
 - [Deployment](#deployment)
-- [Sonuçlar](#sonuçlar)
-- [İletişim](#iletişim)
+- [Results](#results)
+- [Contact](#contact)
 
-## 🎯 Proje Özeti
+## 🎯 Project Overview
 
-Bu proje, oyun kullanıcılarını davranışsal metriklerine göre segmentlere ayırmak için **unsupervised learning** (K-Means clustering) kullanır. Her segment, farklı pazarlama stratejileri ve oyun içi deneyimler için kullanılabilir.
+This project uses **unsupervised learning** (K-Means clustering) to segment gaming users based on behavioral metrics. Each segment can be used for different marketing strategies and in-game experiences.
 
 ### Business Impact
 
-- ✅ **Kişiselleştirilmiş Pazarlama**: Her segment için özel kampanyalar
-- ✅ **Kullanıcı Tutma**: Segment bazlı retention stratejileri
-- ✅ **Gelir Optimizasyonu**: Yüksek değerli kullanıcıları belirleme
-- ✅ **Ürün Geliştirme**: Segment ihtiyaçlarına göre özellik optimizasyonu
+- ✅ **Personalized Marketing**: Custom campaigns for each segment
+- ✅ **User Retention**: Segment-based retention strategies
+- ✅ **Revenue Optimization**: Identify high-value users
+- ✅ **Product Development**: Feature optimization based on segment needs
 
-## 🔍 Problem Tanımı
+## 🔍 Problem Statement
 
-Oyun şirketleri, kullanıcılarını anlamak ve onlara en uygun deneyimi sunmak için segmentasyon yapmalıdır. Bu proje:
+Gaming companies need to segment their users to understand them better and provide the most suitable experience. This project:
 
-1. Kullanıcıları davranışsal özelliklerine göre segmentlere ayırır
-2. Her segmentin profilini çıkarır
-3. Segment bazlı stratejiler önerir
+1. Segments users based on behavioral features
+2. Profiles each segment
+3. Recommends segment-based strategies
 
-### Segmentasyon Yaklaşımı
+### Segmentation Approach
 
 - **Unsupervised Learning**: K-Means Clustering
-- **Feature Engineering**: Davranış metrikleri ve engagement skorları
-- **Segment Profilleme**: Her segmentin özelliklerini analiz etme
+- **Feature Engineering**: Behavioral metrics and engagement scores
+- **Segment Profiling**: Analyzing characteristics of each segment
 
 ## 📊 Dataset
 
-### Dataset Özellikleri
+### Dataset Characteristics
 
 - **Format**: CSV (Tabular)
-- **Satır Sayısı**: 20,000+ kullanıcı
-- **Özellik Sayısı**: 34+ feature
-- **Kaynak**: Kaggle veya sample dataset
+- **Number of Rows**: 20,000+ users
+- **Number of Features**: 34+ features
+- **Source**: Kaggle or sample dataset
 
-### Özellikler
+### Features
 
-- **Demografik**: age, gender, country, device_type
-- **Oyun Davranışı**: sessions, playtime, levels, quests
+- **Demographic**: age, gender, country, device_type
+- **Gaming Behavior**: sessions, playtime, levels, quests
 - **Engagement**: login frequency, days since last login
 - **Monetization**: total spent, purchase count, premium subscription
-- **Sosyal**: friend count, guild membership, chat messages
-- **Performans**: win rate, average score, PvP/PvE stats
+- **Social**: friend count, guild membership, chat messages
+- **Performance**: win rate, average score, PvP/PvE stats
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 user-segmentation-ml-project/
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
+├── run.sh                    # Single command runner
 ├── app.py                    # FastAPI REST API
 ├── streamlit_app.py          # Streamlit frontend
 ├── data/
-│   ├── raw/                  # Ham veri
-│   └── processed/            # İşlenmiş veri
+│   ├── raw/                  # Raw data
+│   └── processed/            # Processed data
 ├── notebooks/
 │   ├── 01_EDA.ipynb          # Exploratory Data Analysis
 │   ├── 02_Baseline.ipynb     # Baseline model
@@ -81,91 +82,104 @@ user-segmentation-ml-project/
 │   ├── 05_Model_Evaluation.ipynb
 │   └── 06_Final_Pipeline.ipynb
 ├── src/
-│   ├── config.py             # Konfigürasyon
-│   ├── data_loader.py        # Veri yükleme
+│   ├── config.py             # Configuration
+│   ├── data_loader.py        # Data loading
 │   ├── pipeline.py           # ML pipeline
-│   ├── inference.py          # Tahmin fonksiyonları
-│   └── download_dataset.py   # Kaggle dataset indirme
-├── models/                   # Eğitilmiş modeller
-├── outputs/                  # Çıktılar
-├── logs/                     # Log dosyaları
-└── docs/                     # Dokümantasyon
+│   ├── inference.py          # Prediction functions
+│   └── download_dataset.py   # Kaggle dataset download
+├── models/                   # Trained models
+├── outputs/                  # Outputs
+├── logs/                     # Log files
+└── docs/                     # Documentation
 ```
 
-## 🛠️ Kullanılan Teknolojiler
+## 🛠️ Technologies Used
 
 ### Machine Learning
 - **Scikit-learn**: K-Means clustering, preprocessing
-- **Pandas & NumPy**: Veri işleme
+- **Pandas & NumPy**: Data processing
 
 ### Visualization
-- **Matplotlib & Seaborn**: Görselleştirme
-- **Plotly**: İnteraktif grafikler
+- **Matplotlib & Seaborn**: Visualization
+- **Plotly**: Interactive charts
 
 ### Deployment
 - **FastAPI**: REST API
-- **Streamlit**: Web uygulaması
+- **Streamlit**: Web application
 - **Uvicorn**: ASGI server
 
 ### Utilities
-- **Kaggle API**: Dataset indirme
-- **Joblib**: Model kaydetme/yükleme
+- **Kaggle API**: Dataset download
+- **Joblib**: Model save/load
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### 1. Repository'yi Klonlayın
+### 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd user-segmentation-ml-project
 ```
 
-### 2. İlk Kurulum
+### 2. Initial Setup
+
+**Option 1: Using the run script (Recommended)**
+
+```bash
+chmod +x run.sh
+./run.sh
+# Select option 7 to install all dependencies
+# Select option 5 to create/download dataset
+# Select option 4 to train the model
+```
+
+**Option 2: Manual Setup**
 
 ```bash
 # Virtual Environment
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Bağımlılıklar
+# Dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 
 # Dataset
 python src/data_loader.py
 
-# Model Eğitimi
+# Model Training
 python src/pipeline.py
 ```
 
-## 💻 Kullanım
+## 💻 Usage
 
-### 🚀 Tek Komutla Çalıştırma
+### 🚀 Single Command Runner
 
-Tüm işlemleri tek bir script ile yapabilirsiniz:
+Run all operations with a single script:
 
 ```bash
 ./run.sh
 ```
 
-Menüden istediğiniz seçeneği seçin:
-1. Jupyter Notebook'ları Başlat
-2. FastAPI'yi Başlat (http://localhost:8000)
-3. Streamlit Uygulamasını Başlat (http://localhost:8501)
-4. Modeli Eğit
-5. Dataset İndir/Oluştur
-6. Inference Testi
-7. Tüm Bağımlılıkları Yükle
+Select from the menu:
+1. 📊 Start Jupyter Notebooks
+2. 🚀 Start FastAPI (http://localhost:8000)
+3. 🎨 Start Streamlit App (http://localhost:8501)
+4. 🤖 Train Model
+5. 📥 Download/Create Dataset
+6. 🧪 Test Inference
+7. 📦 Install All Dependencies
+8. ❌ Exit
 
-### REST API Kullanımı
+### REST API Usage
 
 ```bash
 ./run.sh
-# Menüden 2'yi seçin
-# Tarayıcıda: http://localhost:8000/docs
+# Select option 2
+# Open in browser: http://localhost:8000/docs
 ```
 
-**Örnek Request:**
+**Example Request:**
 
 ```python
 import requests
@@ -178,49 +192,69 @@ user_data = {
     "total_sessions": 50,
     "total_playtime_hours": 120,
     "total_spent_usd": 50,
-    "login_frequency_per_week": 5
+    "login_frequency_per_week": 5,
+    "max_level_reached": 30,
+    "levels_completed": 25,
+    "quests_completed": 40,
+    "achievements_unlocked": 10,
+    "days_since_last_login": 2,
+    "days_since_registration": 60,
+    "friend_count": 5,
+    "guild_member": 1,
+    "purchase_count": 3,
+    "premium_subscription": 0,
+    "win_rate": 0.6,
+    "avg_score": 1500,
+    "avg_session_duration_minutes": 2.4,
+    "avg_purchase_value": 16.6,
+    "last_purchase_days_ago": 10,
+    "pvp_matches_played": 5,
+    "pve_missions_completed": 15,
+    "chat_messages_sent": 20,
+    "reviews_written": 1,
+    "events_participated": 3
 }
 
 response = requests.post("http://localhost:8000/predict", json=user_data)
 print(response.json())
 ```
 
-### Streamlit Uygulaması
+### Streamlit Application
 
 ```bash
 ./run.sh
-# Menüden 3'ü seçin
-# Otomatik olarak tarayıcıda açılacak: http://localhost:8501
+# Select option 3
+# Automatically opens in browser: http://localhost:8501
 ```
 
-### Notebook'ları Çalıştırma
+### Running Notebooks
 
 ```bash
 ./run.sh
-# Menüden 1'i seçin
-# Tarayıcıda notebook'ları açın ve sırayla çalıştırın:
-# 1. 01_EDA.ipynb - Veri keşfi
+# Select option 1
+# Open notebooks in browser and run sequentially:
+# 1. 01_EDA.ipynb - Data exploration
 # 2. 02_Baseline.ipynb - Baseline model
 # 3. 03_Feature_Engineering.ipynb - Feature engineering
-# 4. 04_Model_Optimization.ipynb - Model optimizasyonu
-# 5. 05_Model_Evaluation.ipynb - Model değerlendirme
+# 4. 04_Model_Optimization.ipynb - Model optimization
+# 5. 05_Model_Evaluation.ipynb - Model evaluation
 # 6. 06_Final_Pipeline.ipynb - Final pipeline
 ```
 
-## 📓 Notebook'lar
+## 📓 Notebooks
 
 ### 1. EDA (Exploratory Data Analysis)
-- Problem tanımı
-- Veri yapısı analizi
-- Değişken dağılımları
-- Korelasyon analizi
-- Görselleştirmeler
+- Problem definition
+- Data structure analysis
+- Variable distributions
+- Correlation analysis
+- Visualizations
 
 ### 2. Baseline Model
-- En basit feature set (4 özellik)
+- Minimal feature set (4 features)
 - K-Means clustering
-- Elbow method ile optimal cluster sayısı
-- Baseline metrikleri
+- Optimal cluster count using Elbow method
+- Baseline metrics
 
 ### 3. Feature Engineering
 - Ratio features
@@ -231,8 +265,8 @@ print(response.json())
 - Feature selection
 
 ### 4. Model Optimization
-- Farklı clustering algoritmaları (K-Means, DBSCAN, Hierarchical)
-- Hiperparametre optimizasyonu
+- Different clustering algorithms (K-Means, DBSCAN, Hierarchical)
+- Hyperparameter optimization
 - Grid search
 - Cross-validation
 
@@ -241,12 +275,12 @@ print(response.json())
 - Davies-Bouldin index
 - Calinski-Harabasz index
 - Feature importance
-- Segment profilleme
+- Segment profiling
 
 ### 6. Final Pipeline
-- Final feature set seçimi
-- Final model eğitimi
-- Model kaydetme
+- Final feature set selection
+- Final model training
+- Model saving
 - Production pipeline
 
 ## 🚢 Deployment
@@ -261,71 +295,119 @@ uvicorn app:app --host 0.0.0.0 --port 8000
 streamlit run streamlit_app.py
 ```
 
-### Cloud Deployment
+### Streamlit Cloud Deployment (Recommended)
 
-Proje şu platformlara deploy edilebilir:
-- **Render**: FastAPI ve Streamlit desteği
-- **Heroku**: Web uygulamaları için
-- **AWS/GCP/Azure**: Cloud platformlar
-- **HuggingFace Spaces**: Streamlit için
+Streamlit Cloud is the easiest way to deploy your Streamlit app for free.
 
-## 📈 Sonuçlar
+#### Prerequisites
+
+1. **GitHub Repository**: Push your code to GitHub
+   ```bash
+   git add .
+   git commit -m "Prepare for Streamlit Cloud deployment"
+   git push origin main
+   ```
+
+2. **Model File**: Ensure `models/user_segmentation_pipeline.pkl` is committed to GitHub
+   - The `.gitignore` is configured to include the model file
+   - Verify: `git ls-files models/user_segmentation_pipeline.pkl`
+
+#### Deployment Steps
+
+1. **Sign up for Streamlit Cloud**
+   - Go to [https://streamlit.io/cloud](https://streamlit.io/cloud)
+   - Sign in with your GitHub account
+
+2. **Deploy Your App**
+   - Click "New app"
+   - Select your GitHub repository
+   - Choose the branch (usually `main`)
+   - Set the main file path: `streamlit_app.py`
+   - Click "Deploy"
+
+3. **Your App is Live!**
+   - Streamlit Cloud will automatically build and deploy your app
+   - You'll get a URL like: `https://your-app-name.streamlit.app`
+   - The app will automatically redeploy on every push to the main branch
+
+#### Streamlit Cloud Configuration
+
+The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settings.
+
+#### Troubleshooting
+
+- **Model not found**: Ensure `models/user_segmentation_pipeline.pkl` is committed to GitHub
+- **Import errors**: Check that all dependencies are in `requirements.txt`
+- **Path issues**: The app uses relative paths that work on Streamlit Cloud
+
+### Alternative Cloud Deployment Options
+
+- **HuggingFace Spaces**: [https://huggingface.co/spaces](https://huggingface.co/spaces)
+  - Create a new Space
+  - Select Streamlit as SDK
+  - Upload your files
+- **Render**: [https://render.com](https://render.com)
+  - Create a new Web Service
+  - Build command: `pip install -r requirements.txt`
+  - Start command: `streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0`
+- **Heroku**: Use the provided `Procfile` for deployment
+
+## 📈 Results
 
 ### Baseline Model
 - **Silhouette Score**: ~0.30-0.35
 - **Davies-Bouldin Index**: ~1.5-2.0
-- **Features**: 4 temel özellik
+- **Features**: 4 basic features
 
 ### Final Model
-- **Silhouette Score**: Baseline'dan %X artış
-- **Davies-Bouldin Index**: Baseline'dan %X azalma
-- **Features**: 15-30 özellik
+- **Silhouette Score**: Improved from baseline
+- **Davies-Bouldin Index**: Reduced from baseline
+- **Features**: 15-30 features
 
-### Segmentler
-1. **Casual Players**: Düşük engagement, düşük spending
-2. **Regular Players**: Orta seviye engagement
-3. **Engaged Players**: Yüksek engagement, orta spending
-4. **Whales (High Spenders)**: Yüksek engagement, yüksek spending
+### Segments
+1. **Casual Players**: Low engagement, low spending
+2. **Regular Players**: Medium engagement
+3. **Engaged Players**: High engagement, medium spending
+4. **Whales (High Spenders)**: High engagement, high spending
 
-## 📝 Validasyon Şeması
+## 📝 Validation Schema
 
-- **Train/Test Split**: %80 train, %20 test
-- **Clustering Metrikleri**: Silhouette, Davies-Bouldin, Calinski-Harabasz
-- **Business Validation**: Segment profillerinin iş mantığına uygunluğu
+- **Train/Test Split**: 80% train, 20% test
+- **Clustering Metrics**: Silhouette, Davies-Bouldin, Calinski-Harabasz
+- **Business Validation**: Segment profiles aligned with business logic
 
-## 🔄 Model Canlıya Çıkışı
+## 🔄 Model Production
 
-### Monitoring Metrikleri
+### Monitoring Metrics
 
-- **Segment Dağılımı**: Her segmentin kullanıcı yüzdesi
-- **Segment Kararlılığı**: Segmentlerin zaman içindeki değişimi
-- **Model Drift**: Yeni verilerle model performansı
+- **Segment Distribution**: User percentage per segment
+- **Segment Stability**: Segment changes over time
+- **Model Drift**: Model performance with new data
 
-### Retraining Stratejisi
+### Retraining Strategy
 
-- Aylık retraining
-- Yeni feature'lar eklendiğinde retraining
-- Segment dağılımı değiştiğinde retraining
+- Monthly retraining
+- Retraining when new features are added
+- Retraining when segment distribution changes
 
-## 📚 Ek Kaynaklar
+## 📚 Additional Resources
 
-- [Örnek Proje](https://github.com/enesmanan/credit-risk-model)
+- [Example Project](https://github.com/enesmanan/credit-risk-model)
 - [Made with ML](https://madewithml.com/)
 - [ML Engineering Book](https://soclibrary.futa.edu.ng/books/Machine%20Learning%20Engineering%20(Andriy%20Burkov)%20(Z-Library).pdf)
 
-## 👤 İletişim
+## 👤 Contact
 
-- **Proje**: Gaming User Segmentation
-- **Sektör**: Gaming
+- **Project**: Gaming User Segmentation
+- **Industry**: Gaming
 - **Problem**: User Segmentation
 - **Pipeline**: Unsupervised Learning (K-Means)
-- **Metrik**: Silhouette Score, Davies-Bouldin Index
+- **Metrics**: Silhouette Score, Davies-Bouldin Index
 
-## 📄 Lisans
+## 📄 License
 
-Bu proje eğitim amaçlıdır.
+This project is for educational purposes.
 
 ---
 
-**Not**: Bu proje ML Bootcamp Final Projesi kapsamında geliştirilmiştir.
-
+**Note**: This project was developed as part of the ML Bootcamp Final Project.

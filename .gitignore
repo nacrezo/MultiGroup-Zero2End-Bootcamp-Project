@@ -41,6 +41,7 @@ data/processed/*
 # Models
 models/*
 !models/.gitkeep
+!models/user_segmentation_pipeline.pkl
 
 # Logs
 logs/*
