@@ -53,7 +53,7 @@ class UserSegmentationPipeline:
         # One-Hot Encoding
         for col in cat_cols:
             if col in df.columns:
-                dummies = pd.get_dummies(df[col], prefix=col, drop_first=True, dtype=int)
+                dummies = pd.get_dummies(df[col], prefix=col, drop_first=False, dtype=int)
                 df = pd.concat([df, dummies], axis=1)
                 df.drop(columns=[col], inplace=True)
                 
