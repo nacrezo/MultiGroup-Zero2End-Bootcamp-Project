@@ -111,6 +111,7 @@ if __name__ == "__main__":
     pipeline.load()
     
     # Example: Predict for a single user
+    # Tüm gerekli feature'ları ekliyoruz (model eğitilirken kullanılan tüm feature'lar)
     example_user = {
         'age': 25,
         'gender': 'Male',
@@ -118,20 +119,33 @@ if __name__ == "__main__":
         'device_type': 'Mobile',
         'total_sessions': 50,
         'total_playtime_hours': 120,
-        'total_spent_usd': 50,
-        'login_frequency_per_week': 5,
+        'avg_session_duration_minutes': 30,
         'max_level_reached': 30,
         'levels_completed': 25,
         'quests_completed': 40,
         'achievements_unlocked': 10,
         'days_since_last_login': 2,
         'days_since_registration': 60,
+        'login_frequency_per_week': 5,
         'friend_count': 5,
         'guild_member': 1,
+        'total_spent_usd': 50,
         'purchase_count': 3,
+        'avg_purchase_value': 16.67,
+        'last_purchase_days_ago': 10,
         'premium_subscription': 0,
         'win_rate': 0.6,
         'avg_score': 1500,
+        'pvp_matches_played': 15,
+        'pve_missions_completed': 40,
+        'chat_messages_sent': 50,
+        'reviews_written': 2,
+        'events_participated': 5,
+        # Türetilmiş feature'lar (pipeline bunları otomatik oluşturur ama yine de ekleyelim)
+        'playtime_per_session': 2.4,
+        'spending_per_session': 1.0,
+        'level_completion_rate': 0.83,
+        'engagement_score': 150.0,
     }
     
     cluster = predict_user_segment(example_user, pipeline)

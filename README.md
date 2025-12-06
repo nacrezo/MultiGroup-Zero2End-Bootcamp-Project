@@ -120,60 +120,49 @@ git clone <repository-url>
 cd user-segmentation-ml-project
 ```
 
-### 2. Virtual Environment Oluşturun
+### 2. İlk Kurulum
 
 ```bash
+# Virtual Environment
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
-```
 
-### 3. Bağımlılıkları Yükleyin
-
-```bash
+# Bağımlılıklar
 pip install --upgrade pip
 pip install -r requirements.txt
-```
 
-### 4. Dataset'i İndirin
+# Dataset
+python src/data_loader.py
 
-```bash
-# Kaggle API kullanarak (önerilen)
-python src/download_dataset.py
-
-# Veya manuel olarak data/raw/ klasörüne CSV dosyası ekleyin
-```
-
-### 5. Modeli Eğitin
-
-```bash
+# Model Eğitimi
 python src/pipeline.py
 ```
 
 ## 💻 Kullanım
 
-### Notebook'ları Çalıştırma
+### 🚀 Tek Komutla Çalıştırma
 
-Jupyter Notebook'ları sırayla çalıştırın:
+Tüm işlemleri tek bir script ile yapabilirsiniz:
 
 ```bash
-jupyter notebook notebooks/
+./run.sh
 ```
 
-1. `01_EDA.ipynb` - Veri keşfi
-2. `02_Baseline.ipynb` - Baseline model
-3. `03_Feature_Engineering.ipynb` - Feature engineering
-4. `04_Model_Optimization.ipynb` - Model optimizasyonu
-5. `05_Model_Evaluation.ipynb` - Model değerlendirme
-6. `06_Final_Pipeline.ipynb` - Final pipeline
+Menüden istediğiniz seçeneği seçin:
+1. Jupyter Notebook'ları Başlat
+2. FastAPI'yi Başlat (http://localhost:8000)
+3. Streamlit Uygulamasını Başlat (http://localhost:8501)
+4. Modeli Eğit
+5. Dataset İndir/Oluştur
+6. Inference Testi
+7. Tüm Bağımlılıkları Yükle
 
 ### REST API Kullanımı
 
 ```bash
-# API'yi başlat
-uvicorn app:app --reload
-
-# API dokümantasyonu
-# http://localhost:8000/docs
+./run.sh
+# Menüden 2'yi seçin
+# Tarayıcıda: http://localhost:8000/docs
 ```
 
 **Örnek Request:**
@@ -199,10 +188,24 @@ print(response.json())
 ### Streamlit Uygulaması
 
 ```bash
-streamlit run streamlit_app.py
+./run.sh
+# Menüden 3'ü seçin
+# Otomatik olarak tarayıcıda açılacak: http://localhost:8501
 ```
 
-Tarayıcıda `http://localhost:8501` adresine gidin.
+### Notebook'ları Çalıştırma
+
+```bash
+./run.sh
+# Menüden 1'i seçin
+# Tarayıcıda notebook'ları açın ve sırayla çalıştırın:
+# 1. 01_EDA.ipynb - Veri keşfi
+# 2. 02_Baseline.ipynb - Baseline model
+# 3. 03_Feature_Engineering.ipynb - Feature engineering
+# 4. 04_Model_Optimization.ipynb - Model optimizasyonu
+# 5. 05_Model_Evaluation.ipynb - Model değerlendirme
+# 6. 06_Final_Pipeline.ipynb - Final pipeline
+```
 
 ## 📓 Notebook'lar
 

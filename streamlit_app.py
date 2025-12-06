@@ -118,7 +118,28 @@ def single_prediction_page():
         guild_member = st.selectbox("Guild Member", [0, 1])
         premium_subscription = st.selectbox("Premium Subscription", [0, 1])
     
+    # Additional features (collapsed by default)
+    with st.expander("Additional Features (Optional)"):
+        col5, col6 = st.columns(2)
+        with col5:
+            avg_session_duration_minutes = st.number_input("Avg Session Duration (Minutes)", min_value=0.0, value=30.0)
+            avg_purchase_value = st.number_input("Avg Purchase Value (USD)", min_value=0.0, value=16.67)
+            last_purchase_days_ago = st.number_input("Last Purchase Days Ago", min_value=0, value=10)
+            pvp_matches_played = st.number_input("PvP Matches Played", min_value=0, value=15)
+        with col6:
+            pve_missions_completed = st.number_input("PvE Missions Completed", min_value=0, value=40)
+            chat_messages_sent = st.number_input("Chat Messages Sent", min_value=0, value=50)
+            reviews_written = st.number_input("Reviews Written", min_value=0, value=2)
+            events_participated = st.number_input("Events Participated", min_value=0, value=5)
+    
     if st.button("Predict Segment", type="primary"):
+        # Calculate derived features
+        playtime_per_session = total_playtime_hours / (total_sessions + 1) if total_sessions > 0 else 0
+        spending_per_session = total_spent_usd / (total_sessions + 1) if total_sessions > 0 else 0
+        level_completion_rate = levels_completed / (max_level_reached + 1) if max_level_reached > 0 else 0
+        engagement_score = (total_sessions * 0.3 + total_playtime_hours * 0.3 + 
+                           max_level_reached * 0.2 + quests_completed * 0.2)
+        
         user_data = {
             'age': age,
             'gender': gender,
@@ -126,20 +147,33 @@ def single_prediction_page():
             'device_type': device_type,
             'total_sessions': total_sessions,
             'total_playtime_hours': total_playtime_hours,
-            'total_spent_usd': total_spent_usd,
-            'login_frequency_per_week': login_frequency_per_week,
+            'avg_session_duration_minutes': avg_session_duration_minutes,
             'max_level_reached': max_level_reached,
             'levels_completed': levels_completed,
             'quests_completed': quests_completed,
             'achievements_unlocked': achievements_unlocked,
             'days_since_last_login': days_since_last_login,
             'days_since_registration': days_since_registration,
+            'login_frequency_per_week': login_frequency_per_week,
             'friend_count': friend_count,
             'guild_member': guild_member,
+            'total_spent_usd': total_spent_usd,
             'purchase_count': 3,
+            'avg_purchase_value': avg_purchase_value,
+            'last_purchase_days_ago': last_purchase_days_ago,
             'premium_subscription': premium_subscription,
             'win_rate': 0.6,
             'avg_score': 1500,
+            'pvp_matches_played': pvp_matches_played,
+            'pve_missions_completed': pve_missions_completed,
+            'chat_messages_sent': chat_messages_sent,
+            'reviews_written': reviews_written,
+            'events_participated': events_participated,
+            # Derived features
+            'playtime_per_session': playtime_per_session,
+            'spending_per_session': spending_per_session,
+            'level_completion_rate': level_completion_rate,
+            'engagement_score': engagement_score,
         }
         
         segment = predict_user_segment(user_data, st.session_state.pipeline)
