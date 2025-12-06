@@ -128,7 +128,7 @@ def create_sample_gaming_dataset(n_samples: int = 20000, save_path: Optional[Pat
         'country': np.random.choice(['USA', 'UK', 'Germany', 'France', 'Turkey', 'Japan', 'South Korea'], 
                                     n_samples, p=[0.25, 0.15, 0.12, 0.10, 0.10, 0.15, 0.13]),
         'device_type': np.random.choice(['Mobile', 'PC', 'Console'], n_samples, p=[0.60, 0.25, 0.15]),
-        'registration_date': pd.date_range('2023-01-01', periods=n_samples, freq='H')[:n_samples],
+        'registration_date': pd.date_range('2023-01-01', periods=n_samples, freq='h')[:n_samples],
         
         # Gameplay behavior
         'total_sessions': np.random.poisson(45, n_samples),
