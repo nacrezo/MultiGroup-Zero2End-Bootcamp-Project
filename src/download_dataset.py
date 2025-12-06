@@ -19,15 +19,14 @@ logger = logging.getLogger(__name__)
 
 # Gaming user segmentation için önerilen dataset'ler
 GAMING_DATASETS = {
+    'gaming-behavior': {
+        'name': 'rabieelkharoua/predict-online-gaming-behavior-dataset',
+        'description': 'Predict Online Gaming Behavior Dataset (40k+ rows, 10+ columns)'
+    },
     'cookie-cats': {
-        'name': 'datasnaek/mobile-games-ab-testing',
-        'description': 'Mobile Games A/B Testing - Cookie Cats (Popular gaming dataset)'
+        'name': 'yufengsui/mobile-games-ab-testing',
+        'description': 'Mobile Games A/B Testing - Cookie Cats'
     },
-    'player-behavior': {
-        'name': 'aravindh1/player-behavior-dataset',
-        'description': 'Player Behavior Dataset (if available)'
-    },
-    # Kullanıcı kendi dataset'ini ekleyebilir
 }
 
 def main():

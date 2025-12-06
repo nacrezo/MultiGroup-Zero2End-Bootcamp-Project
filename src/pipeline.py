@@ -37,54 +37,45 @@ class UserSegmentationPipeline:
         self.model = None
         self.feature_names = None
         self.n_clusters = BUSINESS_RULES['segment_count']
+        self.is_fitted = False
         
     def preprocess(self, df: pd.DataFrame, is_training: bool = True) -> pd.DataFrame:
         """Preprocess the data for clustering."""
         df = df.copy()
         
-        # Remove non-feature columns
-        cols_to_remove = ['user_id']
-        if 'registration_date' in df.columns:
-            cols_to_remove.append('registration_date')
-        df = df.drop(columns=[col for col in cols_to_remove if col in df.columns])
+        # Drop non-feature columns
+        cols_to_drop = ['PlayerID', 'EngagementLevel'] 
+        df = df.drop(columns=[c for c in cols_to_drop if c in df.columns])
         
-        # Handle missing values
-        numerical_cols = df.select_dtypes(include=[np.number]).columns.tolist()
-        df[numerical_cols] = df[numerical_cols].fillna(df[numerical_cols].median())
+        # Categorical columns to encode
+        cat_cols = ['Gender', 'Location', 'GameGenre', 'GameDifficulty']
         
-        # Encode categorical variables
-        categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
-        for col in categorical_cols:
-            if is_training:
-                le = LabelEncoder()
-                df[f'{col}_encoded'] = le.fit_transform(df[col].astype(str).fillna('Unknown'))
-                self.label_encoders[col] = le
-            else:
-                if col in self.label_encoders:
-                    df[col] = df[col].astype(str).fillna('Unknown')
-                    unseen_mask = ~df[col].isin(self.label_encoders[col].classes_)
-                    if unseen_mask.any():
-                        df.loc[unseen_mask, col] = self.label_encoders[col].classes_[0]
-                    df[f'{col}_encoded'] = self.label_encoders[col].transform(df[col])
-                else:
-                    df[f'{col}_encoded'] = 0
+        # One-Hot Encoding
+        for col in cat_cols:
+            if col in df.columns:
+                dummies = pd.get_dummies(df[col], prefix=col, drop_first=True, dtype=int)
+                df = pd.concat([df, dummies], axis=1)
+                df.drop(columns=[col], inplace=True)
+                
+                
+                # Note: Alignment happens after all encoding is done
         
-        # Feature engineering
-        if 'total_spent_usd' in df.columns and 'total_playtime_hours' in df.columns:
-            df['spending_per_hour'] = df['total_spent_usd'] / (df['total_playtime_hours'] + 1)
+        # Align with training features if fitted
+        if self.is_fitted:
+             # Align with training features: add missing with 0
+             for feat in self.feature_names:
+                 if feat not in df.columns:
+                     df[feat] = 0
+                     
+        # No specific derived features for now, basic clustering on raw+encoded data
         
-        if 'total_sessions' in df.columns and 'days_since_registration' in df.columns:
-            df['sessions_per_week'] = df['total_sessions'] / ((df['days_since_registration'] / 7) + 1)
-        
-        if 'levels_completed' in df.columns and 'max_level_reached' in df.columns:
-            df['level_progress_rate'] = df['levels_completed'] / (df['max_level_reached'] + 1)
-        
-        # Aggregate features
-        if 'total_sessions' in df.columns and 'total_playtime_hours' in df.columns:
-            df['total_gameplay_score'] = (df['total_sessions'] * 0.3 + 
-                                         df['total_playtime_hours'] * 0.3 + 
-                                         df.get('max_level_reached', 0) * 0.2 + 
-                                         df.get('quests_completed', 0) * 0.2)
+        # Check for duplicates (Verification)
+        if df.columns.duplicated().any():
+            dups = df.columns[df.columns.duplicated()].tolist()
+            # If duplicates exist, we should probably resolve them (e.g., keep first)
+            # But with correct logic, they shouldn't exist.
+            # If they do, it's a bug. But let's be robust.
+            df = df.loc[:, ~df.columns.duplicated()]
         
         return df
     
@@ -94,6 +85,12 @@ class UserSegmentationPipeline:
         
         # Preprocess
         df_processed = self.preprocess(df, is_training=True)
+        
+        # Check for duplicates
+        if df_processed.columns.duplicated().any():
+            dups = df_processed.columns[df_processed.columns.duplicated()].tolist()
+            logger.error(f"Duplicate columns found: {dups}")
+            raise ValueError(f"Duplicate columns: {dups}")
         
         # Select numerical features
         numerical_cols = df_processed.select_dtypes(include=[np.number]).columns.tolist()
@@ -124,6 +121,8 @@ class UserSegmentationPipeline:
         )
         self.model.fit(X_scaled)
         
+        self.is_fitted = True
+        
         # Calculate metrics
         labels = self.model.labels_
         metrics = {
@@ -150,7 +149,9 @@ class UserSegmentationPipeline:
         df_processed = self.preprocess(df, is_training=False)
         
         # Select features
-        X = df_processed[self.feature_names].copy()
+        # Ensure all columns exist (preprocess should have handled dtypes, but we double check or reindex)
+        # Reindex is safer to ensure order and missing/extra columns
+        X = df_processed.reindex(columns=self.feature_names, fill_value=0)
         
         # Remove low variance (if selector was used)
         if self.variance_selector is not None:
@@ -179,7 +180,8 @@ class UserSegmentationPipeline:
             'variance_selector': self.variance_selector,
             'model': self.model,
             'feature_names': self.feature_names,
-            'n_clusters': self.n_clusters
+            'n_clusters': self.n_clusters,
+            'is_fitted': self.is_fitted
         }
         
         joblib.dump(pipeline_dict, model_path)
@@ -200,6 +202,7 @@ class UserSegmentationPipeline:
         self.model = pipeline_dict['model']
         self.feature_names = pipeline_dict['feature_names']
         self.n_clusters = pipeline_dict['n_clusters']
+        self.is_fitted = pipeline_dict.get('is_fitted', True) # Default to True for backward compat if needed
         
         logger.info(f"Pipeline loaded from {model_path}")
 

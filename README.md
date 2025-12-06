@@ -48,18 +48,16 @@ Gaming companies need to segment their users to understand them better and provi
 ### Dataset Characteristics
 
 - **Format**: CSV (Tabular)
-- **Number of Rows**: 20,000+ users
-- **Number of Features**: 34+ features
-- **Source**: Kaggle or sample dataset
+- **Number of Rows**: 40,000+ users
+- **Number of Features**: 12 features
+- **Source**: Kaggle (rabieelkharoua/predict-online-gaming-behavior-dataset)
 
 ### Features
 
-- **Demographic**: age, gender, country, device_type
-- **Gaming Behavior**: sessions, playtime, levels, quests
-- **Engagement**: login frequency, days since last login
-- **Monetization**: total spent, purchase count, premium subscription
-- **Social**: friend count, guild membership, chat messages
-- **Performance**: win rate, average score, PvP/PvE stats
+- **Demographic**: Age, Gender, Location
+- **Gaming Habits**: GameGenre, GameDifficulty, SessionsPerWeek, AvgSessionDurationMinutes, PlayTimeHours
+- **Engagement**: InGamePurchases, PlayerLevel, AchievementUnlocked, EngagementLevel
+- **Identity**: PlayerID
 
 ## 📁 Project Structure
 
@@ -185,34 +183,18 @@ Select from the menu:
 import requests
 
 user_data = {
-    "age": 25,
-    "gender": "Male",
-    "country": "USA",
-    "device_type": "Mobile",
-    "total_sessions": 50,
-    "total_playtime_hours": 120,
-    "total_spent_usd": 50,
-    "login_frequency_per_week": 5,
-    "max_level_reached": 30,
-    "levels_completed": 25,
-    "quests_completed": 40,
-    "achievements_unlocked": 10,
-    "days_since_last_login": 2,
-    "days_since_registration": 60,
-    "friend_count": 5,
-    "guild_member": 1,
-    "purchase_count": 3,
-    "premium_subscription": 0,
-    "win_rate": 0.6,
-    "avg_score": 1500,
-    "avg_session_duration_minutes": 2.4,
-    "avg_purchase_value": 16.6,
-    "last_purchase_days_ago": 10,
-    "pvp_matches_played": 5,
-    "pve_missions_completed": 15,
-    "chat_messages_sent": 20,
-    "reviews_written": 1,
-    "events_participated": 3
+    "PlayerID": 1001,
+    "Age": 25,
+    "Gender": "Male",
+    "Location": "USA",
+    "GameGenre": "Action",
+    "PlayTimeHours": 35.5,
+    "InGamePurchases": 0,
+    "GameDifficulty": "Medium",
+    "SessionsPerWeek": 5,
+    "AvgSessionDurationMinutes": 45.0,
+    "PlayerLevel": 10,
+    "AchievementUnlocked": 15
 }
 
 response = requests.post("http://localhost:8000/predict", json=user_data)
@@ -365,10 +347,11 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
 - **Features**: 15-30 features
 
 ### Segments
-1. **Casual Players**: Low engagement, low spending
-2. **Regular Players**: Medium engagement
-3. **Engaged Players**: High engagement, medium spending
-4. **Whales (High Spenders)**: High engagement, high spending
+### Segments
+1. **Action & Sports Fans**: Users who primarily play Action and Sports games
+2. **Simulation Enthusiasts**: Users focused on Simulation games
+3. **Strategy Masterminds**: Users dedicated to Strategy games
+4. **RPG Adventurers**: Users who prefer Role-Playing Games
 
 ## 📝 Validation Schema
 

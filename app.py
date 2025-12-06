@@ -44,34 +44,25 @@ except Exception as e:
 
 # Request/Response models
 class UserFeatures(BaseModel):
-    """User features for segmentation."""
-    age: int = Field(..., ge=13, le=100, description="User age")
-    gender: str = Field(..., description="User gender")
-    country: str = Field(..., description="User country")
-    device_type: str = Field(..., description="Device type")
-    total_sessions: int = Field(..., ge=0, description="Total game sessions")
-    total_playtime_hours: float = Field(..., ge=0, description="Total playtime in hours")
-    total_spent_usd: float = Field(..., ge=0, description="Total spending in USD")
-    login_frequency_per_week: float = Field(..., ge=0, description="Login frequency per week")
-    max_level_reached: Optional[int] = Field(None, ge=0, description="Maximum level reached")
-    levels_completed: Optional[int] = Field(None, ge=0, description="Levels completed")
-    quests_completed: Optional[int] = Field(None, ge=0, description="Quests completed")
-    achievements_unlocked: Optional[int] = Field(None, ge=0, description="Achievements unlocked")
-    days_since_last_login: Optional[int] = Field(None, ge=0, description="Days since last login")
-    days_since_registration: Optional[int] = Field(None, ge=0, description="Days since registration")
-    friend_count: Optional[int] = Field(None, ge=0, description="Friend count")
-    guild_member: Optional[int] = Field(None, ge=0, le=1, description="Guild membership")
-    purchase_count: Optional[int] = Field(None, ge=0, description="Purchase count")
-    premium_subscription: Optional[int] = Field(None, ge=0, le=1, description="Premium subscription")
-    win_rate: Optional[float] = Field(None, ge=0, le=1, description="Win rate")
-    avg_score: Optional[float] = Field(None, ge=0, description="Average score")
+    """User features for segmentation (Gaming Behavior Dataset)."""
+    PlayerID: Optional[int] = Field(None, description="Player ID")
+    Age: int = Field(..., ge=13, le=99, description="Player Age")
+    Gender: str = Field(..., description="Gender")
+    Location: str = Field(..., description="Location")
+    GameGenre: str = Field(..., description="Game Genre")
+    PlayTimeHours: float = Field(..., ge=0, description="Play Time Hours")
+    InGamePurchases: int = Field(..., ge=0, le=1, description="In Game Purchases (0 or 1)")
+    GameDifficulty: str = Field(..., description="Game Difficulty")
+    SessionsPerWeek: int = Field(..., ge=0, description="Sessions Per Week")
+    AvgSessionDurationMinutes: float = Field(..., ge=0, description="Avg Session Duration")
+    PlayerLevel: int = Field(..., ge=1, description="Player Level")
+    AchievementUnlocked: int = Field(..., ge=0, description="Achievements Unlocked")
 
 
 class SegmentationResponse(BaseModel):
-    """Response model for segmentation."""
-    segment: int = Field(..., description="Predicted user segment (cluster ID)")
-    segment_name: Optional[str] = Field(None, description="Human-readable segment name")
-    confidence: Optional[float] = Field(None, description="Confidence score")
+    cluster: int = Field(..., description="Predicted user segment (cluster ID)")
+    segment_name: str = Field(..., description="Human-readable segment name")
+    message: str = Field(..., description="A descriptive message about the segmentation result.")
 
 
 class BatchSegmentationRequest(BaseModel):
@@ -114,20 +105,19 @@ async def predict_segment(user: UserFeatures):
         user_dict = user.dict(exclude_none=True)
         
         # Predict
-        segment = predict_user_segment(user_dict, pipeline)
+        cluster = predict_user_segment(user_dict, pipeline)
         
-        # Segment names (can be customized)
         segment_names = {
-            0: "Casual Players",
-            1: "Regular Players",
-            2: "Engaged Players",
-            3: "Whales (High Spenders)"
+            0: "Action & Sports Fans",
+            1: "Simulation Enthusiasts",
+            2: "Strategy Masterminds",
+            3: "RPG Adventurers"
         }
         
         return SegmentationResponse(
-            segment=segment,
-            segment_name=segment_names.get(segment, f"Segment {segment}"),
-            confidence=None  # Clustering doesn't provide confidence scores
+            cluster=cluster,
+            segment_name=segment_names.get(cluster, "Unknown"),
+            message=f"User belongs to segment {cluster}: {segment_names.get(cluster, 'Unknown')}"
         )
     except Exception as e:
         logger.error(f"Prediction error: {e}")

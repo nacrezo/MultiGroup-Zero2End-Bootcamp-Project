@@ -27,8 +27,8 @@ for directory in [RAW_DATA_DIR, PROCESSED_DATA_DIR, MODELS_DIR, OUTPUT_DIR, LOGS
 
 # Dataset configuration
 # Gaming user segmentation için uygun dataset
-# Örnek: "datasnaek/mobile-games-ab-testing" veya başka bir gaming dataset
-DATASET_NAME = "gaming_user_segmentation"
+# Dataset: rabieelkharoua/predict-online-gaming-behavior-dataset
+DATASET_NAME = "predict-online-gaming-behavior-dataset"
 TRAIN_FILE = RAW_DATA_DIR / "train.csv"
 TEST_FILE = RAW_DATA_DIR / "test.csv"
 
