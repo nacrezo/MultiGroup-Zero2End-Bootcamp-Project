@@ -90,7 +90,11 @@ def single_prediction_page():
     
     with col1:
         st.subheader("Demographics & Info")
-        player_id = st.number_input("Player ID", min_value=1, value=1001)
+        # PlayerID is not used in model, just for display/tracking. 
+        # User requested to hide it from UI. Auto-generating in background.
+        import random
+        random_id = random.randint(1000, 9999)
+        player_id = random_id # Hidden from UI
         age = st.number_input("Age", min_value=13, max_value=99, value=25)
         gender = st.selectbox("Gender", ["Male", "Female"])
         location = st.selectbox("Location", ["USA", "Europe", "Asia", "Other"])
