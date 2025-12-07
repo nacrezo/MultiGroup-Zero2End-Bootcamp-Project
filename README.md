@@ -379,13 +379,55 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
 - [Made with ML](https://madewithml.com/)
 - [ML Engineering Book](https://soclibrary.futa.edu.ng/books/Machine%20Learning%20Engineering%20(Andriy%20Burkov)%20(Z-Library).pdf)
 
+## 📑 Project Report
+
+Below are the answers to the questions required by the bootcamp requirements:
+
+### 1. Problem Definition
+The goal is to segment users in the gaming industry based on their behavioral characteristics (play time, spending, session frequency, etc.). The objective is to develop personalized marketing and in-game strategies for each segment to increase user loyalty and revenue.
+
+### 2. Baseline Process and Score
+At the beginning of the project, a simple K-Means model was established using only 4 basic features (PlayTime, InGamePurchases, SessionsPerWeek, PlayerLevel).
+- **Baseline Silhouette Score**: ~0.35
+- **Baseline Davies-Bouldin Index**: ~1.50
+These scores indicated that the model needed improvement.
+
+### 3. Feature Engineering Experiments
+- **Ratio Features**: Ratios such as Purchase/PlayTime (Spending efficiency) and Session/Week (Play frequency) were derived.
+- **Categorical Encoding**: One-Hot encoding was performed for GameGenre and Difficulty.
+- **Scaling**: Since K-Means is distance-based, all numerical data were scaled using StandardScaler.
+- **Missing Value Imputation**: Missing data were filled using the Median strategy to prevent data loss.
+
+### 4. Validation Scheme
+- **Train/Test Split**: Split as 80% Train, 20% Test. Since this is unsupervised learning, the test set was used to measure consistency (stability) on unseen data.
+- **Metrics**: Silhouette Score (intra-cluster similarity vs. inter-cluster separation) was chosen as the primary metric.
+
+### 5. Final Pipeline and Feature Set Selection
+Based on experiments in the `05_Model_Evaluation.ipynb` notebook:
+- **Feature Selection**: Low variance features were eliminated using VarianceThreshold.
+- **Model**: The K-Means algorithm was chosen for its high interpretability.
+- **Cluster Count**: Although the Elbow method did not show a sharp break, 4 segments were decided as optimal based on Business rules (Action, RPG, Strategy, Sim).
+
+### 6. Final Model vs Baseline
+The final model provided better separation than the baseline with an enriched feature set and optimized parameters.
+- **Final Silhouette Score**: Increased compared to the baseline.
+- **Segment Profiles**: Segments became more meaningful and actionable for the business unit.
+
+### 7. Business Alignment
+The model output identified 4 main personas (Action Fans, RPG Adventurers, etc.). These personas align perfectly with the marketing team's campaign structures (e.g., tournament suggestions for Action players, costume discounts for RPG players).
+
+### 8. Deployment and Monitoring
+The model was exported as `user_segmentation_pipeline.pkl` and deployed using FastAPI.
+**Metrics to Monitor:**
+- **Model Drift**: Deviation of incoming new data distribution from training data.
+- **Segment Distribution**: Percentage distribution of segments on a weekly basis (e.g., sudden disappearance of a segment could indicate a technical issue or trend change).
+
 ## 👤 Contact
 
-- **Project**: Gaming User Segmentation
-- **Industry**: Gaming
-- **Problem**: User Segmentation
-- **Pipeline**: Unsupervised Learning (K-Means)
-- **Metrics**: Silhouette Score, Davies-Bouldin Index
+- **Author**: Can Özer
+- **Email**: canozer.pirireis@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/canozer1/
+- **Project Link**: https://github.com/nacrezo/MultiGroup-Zero2End-Bootcamp-Project
 
 ## 📄 License
 

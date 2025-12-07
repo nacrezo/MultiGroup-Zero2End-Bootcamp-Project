@@ -11,6 +11,7 @@ import logging
 from typing import Tuple, Dict, Any, Optional
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.impute import SimpleImputer
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 from sklearn.feature_selection import VarianceThreshold
@@ -32,6 +33,7 @@ class UserSegmentationPipeline:
     
     def __init__(self):
         self.scaler = StandardScaler()
+        self.imputer = SimpleImputer(strategy='median')
         self.label_encoders = {}
         self.variance_selector = None
         self.model = None
@@ -100,6 +102,12 @@ class UserSegmentationPipeline:
         # Remove low variance features
         if FEATURE_CONFIG['remove_low_variance']:
             self.variance_selector = VarianceThreshold(threshold=FEATURE_CONFIG['variance_threshold'])
+            # Impute before variance threshold if needed, but usually VarianceThreshold handles NaNs? No it doesn't.
+            # So impute first.
+            X_imputed = self.imputer.fit_transform(X)
+            X = pd.DataFrame(X_imputed, columns=X.columns, index=X.index)
+            
+            # Now variance threshold
             X = pd.DataFrame(
                 self.variance_selector.fit_transform(X),
                 columns=[self.feature_names[i] for i in range(len(self.feature_names)) 
@@ -107,6 +115,10 @@ class UserSegmentationPipeline:
                 index=X.index
             )
             self.feature_names = X.columns.tolist()
+        else:
+            # Impute even if no variance selection
+            X_imputed = self.imputer.fit_transform(X)
+            X = pd.DataFrame(X_imputed, columns=X.columns, index=X.index)
         
         # Scale features
         X_scaled = self.scaler.fit_transform(X)
@@ -155,11 +167,19 @@ class UserSegmentationPipeline:
         
         # Remove low variance (if selector was used)
         if self.variance_selector is not None:
+             # Impute first
+            X_imputed = self.imputer.transform(X)
+            X = pd.DataFrame(X_imputed, columns=X.columns, index=X.index)
+            
             X = pd.DataFrame(
                 self.variance_selector.transform(X),
                 columns=self.feature_names,
                 index=X.index
             )
+        else:
+             # Impute
+            X_imputed = self.imputer.transform(X)
+            X = pd.DataFrame(X_imputed, columns=X.columns, index=X.index)
         
         # Scale
         X_scaled = self.scaler.transform(X)
@@ -176,6 +196,7 @@ class UserSegmentationPipeline:
         
         pipeline_dict = {
             'scaler': self.scaler,
+            'imputer': self.imputer,
             'label_encoders': self.label_encoders,
             'variance_selector': self.variance_selector,
             'model': self.model,
@@ -197,6 +218,7 @@ class UserSegmentationPipeline:
         
         pipeline_dict = joblib.load(model_path)
         self.scaler = pipeline_dict['scaler']
+        self.imputer = pipeline_dict.get('imputer', SimpleImputer(strategy='median')) # Backwards compat
         self.label_encoders = pipeline_dict['label_encoders']
         self.variance_selector = pipeline_dict['variance_selector']
         self.model = pipeline_dict['model']

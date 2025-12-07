@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 import uvicorn
 import logging
+import pandas as pd
 
 from src.inference import predict_user_segment, predict_batch, get_segment_profile, UserSegmentationPipeline
 from src.config import API_CONFIG

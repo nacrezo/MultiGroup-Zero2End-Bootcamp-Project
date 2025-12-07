@@ -112,7 +112,7 @@ while true; do
         2)
             echo -e "${GREEN}FastAPI başlatılıyor...${NC}"
             echo -e "${BLUE}Tarayıcıda: http://localhost:8000/docs${NC}"
-            uvicorn app:app --reload --host 0.0.0.0 --port 8000
+            uvicorn src.app:app --reload --host 0.0.0.0 --port 8000
             ;;
         3)
             echo -e "${GREEN}Streamlit başlatılıyor...${NC}"
