@@ -64,7 +64,7 @@ show_menu() {
     echo "2) 🚀 FastAPI'yi Başlat (http://localhost:8000)"
     echo "3) 🎨 Streamlit Uygulamasını Başlat (http://localhost:8501)"
     echo "4) 🤖 Modeli Eğit"
-    echo "5) 📥 Dataset İndir/Oluştur"
+    echo "5) 📥 Dataset İşle (Kaggle verisini hazırlar)"
     echo "6) 🧪 Inference Testi"
     echo "7) 📦 Tüm Bağımlılıkları Yükle"
     echo "8) ❌ Çıkış"
@@ -81,9 +81,9 @@ install_dependencies() {
 
 # Dataset oluştur
 create_dataset() {
-    echo -e "${YELLOW}Dataset oluşturuluyor...${NC}"
+    echo -e "${YELLOW}Dataset işleniyor...${NC}"
     python src/data_loader.py
-    echo -e "${GREEN}✅ Dataset hazır${NC}"
+    echo -e "${GREEN}✅ Dataset hazırlandı (data/raw/train.csv)${NC}"
 }
 
 # Model eğit

@@ -143,6 +143,8 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # Dataset
+# 1. Download dataset from Kaggle: https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset
+# 2. Place it in data/raw/
 python src/data_loader.py
 
 # Model Training
@@ -164,7 +166,7 @@ Select from the menu:
 2. 🚀 Start FastAPI (http://localhost:8000)
 3. 🎨 Start Streamlit App (http://localhost:8501)
 4. 🤖 Train Model
-5. 📥 Download/Create Dataset
+5. 📥 Process Dataset (Requires manual download)
 6. 🧪 Test Inference
 7. 📦 Install All Dependencies
 8. ❌ Exit
