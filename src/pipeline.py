@@ -239,7 +239,11 @@ def train_pipeline() -> Dict[str, Any]:
     logger.info("Loading dataset...")
     df = load_gaming_dataset(RAW_DATA_DIR)
     if df is None or len(df) == 0:
-        raise FileNotFoundError("Dataset not found. Please run download_dataset.py first.")
+        raise FileNotFoundError(
+            "Dataset not found. Please download the dataset manually from Kaggle:\n"
+            "https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset\n"
+            "Place the CSV file in data/raw/ directory."
+        )
     
     logger.info(f"Dataset loaded: {df.shape[0]} rows, {df.shape[1]} columns")
     

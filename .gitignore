@@ -33,8 +33,13 @@ ENV/
 *.ipynb_checkpoints
 
 # Data
+# Note: Small dataset files (~2.7MB) are included in the repo for convenience
+# First ignore everything in data/raw/
 data/raw/*
+# Then include .gitkeep and CSV files
 !data/raw/.gitkeep
+!data/raw/*.csv
+
 data/processed/*
 !data/processed/.gitkeep
 

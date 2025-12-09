@@ -64,7 +64,7 @@ show_menu() {
     echo "2) FastAPI'yi Baslat (http://localhost:8000)"
     echo "3) Streamlit Uygulamasini Baslat (http://localhost:8501)"
     echo "4) Modeli Egit"
-    echo "5) Dataset Isle (Kaggle verisini hazirlar)"
+    echo "5) Dataset Isle (Dataset repo'da mevcut)"
     echo "6) Inference Testi"
     echo "7) Tum Bagimliliklari Yukle"
     echo "8) Cikis"
@@ -82,8 +82,12 @@ install_dependencies() {
 # Dataset oluştur
 create_dataset() {
     echo -e "${YELLOW}Dataset işleniyor...${NC}"
-    python src/data_loader.py
-    echo -e "${GREEN}[OK] Dataset hazirlandi (data/raw/train.csv)${NC}"
+    if python src/data_loader.py; then
+        echo -e "${GREEN}[OK] Dataset hazirlandi (data/raw/train.csv)${NC}"
+    else
+        echo -e "${YELLOW}[HATA] Dataset hazirlanamadi${NC}"
+        return 1
+    fi
 }
 
 # Model eğit

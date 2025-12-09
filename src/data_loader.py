@@ -20,45 +20,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def download_kaggle_dataset(dataset_name: str, save_path: Path, files: list = None) -> None:
-    """
-    Download dataset from Kaggle.
-    Requires kaggle API credentials in ~/.kaggle/kaggle.json
-    
-    Args:
-        dataset_name: Kaggle dataset name (e.g., 'datasnaek/mobile-games-ab-testing')
-        save_path: Directory to save the dataset
-        files: Optional list of specific files to download
-    """
-    try:
-        from kaggle.api.kaggle_api_extended import KaggleApi
-        
-        api = KaggleApi()
-        api.authenticate()
-        
-        logger.info(f"Downloading dataset: {dataset_name}")
-        save_path.mkdir(parents=True, exist_ok=True)
-        
-        if files:
-            for file in files:
-                api.dataset_download_file(dataset_name, file, path=str(save_path))
-        else:
-            api.dataset_download_files(dataset_name, path=str(save_path), unzip=True)
-        
-        logger.info(f"Dataset downloaded successfully to {save_path}")
-        
-    except ImportError:
-        logger.error("Kaggle API not installed. Install with: pip install kaggle")
-        logger.info("Alternatively, you can manually download the dataset from Kaggle")
-        raise
-    except Exception as e:
-        logger.error(f"Error downloading dataset: {e}")
-        logger.info("Make sure you have:")
-        logger.info("1. Kaggle API credentials in ~/.kaggle/kaggle.json")
-        logger.info("2. kaggle package installed: pip install kaggle")
-        raise
-
-
 def load_gaming_dataset(dataset_path: Path = None) -> pd.DataFrame:
     """
     Load and preprocess the real gaming user behavior dataset.
@@ -141,6 +102,9 @@ def load_gaming_dataset(dataset_path: Path = None) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
+    import sys
+    import subprocess
+    
     try:
         df = load_gaming_dataset(RAW_DATA_DIR)
         
@@ -153,7 +117,28 @@ if __name__ == "__main__":
                  logger.warning(f"Could not save to {TRAIN_FILE} (permission denied)")
                  
     except FileNotFoundError:
-        logger.error("Dataset not found. Please download it from Kaggle.")
-        logger.info("Link: https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset")
+        logger.error("")
+        logger.error("=" * 60)
+        logger.error("Dataset bulunamadı!")
+        logger.error("=" * 60)
+        logger.error("")
+        logger.error("Dataset dosyası data/raw/ klasöründe bulunamadı.")
+        logger.error("")
+        logger.error("ÇÖZÜM 1: Repo'yu yeniden clone edin (dataset repo'da olmalı)")
+        logger.error("")
+        logger.error("ÇÖZÜM 2: Dataset'i manuel olarak indirin:")
+        logger.error("  1. https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset")
+        logger.error("  2. 'Download' butonuna tıklayın")
+        logger.error(f"  3. CSV dosyasını {RAW_DATA_DIR} klasörüne kopyalayın")
+        logger.error("")
+        logger.error("   Kabul edilen dosya isimleri:")
+        logger.error("   - online_gaming_behavior_dataset.csv")
+        logger.error("   - predict_online_gaming_behavior_dataset.csv")
+        logger.error("   - gaming_behavior.csv")
+        logger.error("   - train.csv")
+        logger.error("   - data.csv")
+        logger.error("")
+        logger.error("=" * 60)
+        sys.exit(1)
 
 

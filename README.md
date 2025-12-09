@@ -45,6 +45,26 @@ Gaming companies need to segment their users to understand them better and provi
 
 ## Dataset
 
+### Dataset Kurulumu
+
+Dataset dosyası repo'ya dahil edilmiştir. Repo'yu clone ettiğinizde dataset otomatik olarak gelecektir.
+
+**Dataset Konumu:**
+- `data/raw/online_gaming_behavior_dataset.csv` (veya diğer isimler)
+- Dosya boyutu: ~2.7 MB (GitHub için uygun)
+
+**Eğer Dataset Bulunamazsa:**
+
+1. **Repo'yu yeniden clone edin:**
+   ```bash
+   git clone <repo-url>
+   ```
+
+2. **Veya manuel olarak indirin:**
+   - Link: https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset
+   - "Download" butonuna tıklayın
+   - CSV dosyasını `data/raw/` klasörüne kopyalayın
+
 ### Dataset Characteristics
 
 - **Format**: CSV (Tabular)
@@ -71,10 +91,9 @@ MultiGroup-Zero2End-Bootcamp-Project/
 ├── src/
 │   ├── app.py                # FastAPI REST API
 │   ├── config.py             # Configuration
-│   ├── data_loader.py        # Data loading
+│   ├── data_loader.py        # Data loading and preprocessing
 │   ├── pipeline.py           # ML pipeline
-│   ├── inference.py          # Prediction functions
-│   └── download_dataset.py   # Kaggle dataset download
+│   └── inference.py          # Prediction functions
 ├── data/
 │   ├── raw/                  # Raw data
 │   └── processed/            # Processed data
@@ -107,7 +126,6 @@ MultiGroup-Zero2End-Bootcamp-Project/
 - **Uvicorn**: ASGI server
 
 ### Utilities
-- **Kaggle API**: Dataset download
 - **Joblib**: Model save/load
 
 ## Installation
@@ -142,9 +160,12 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Dataset
-# 1. Download dataset from Kaggle: https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset
-# 2. Place it in data/raw/
+# Dataset (Repo'da mevcut - otomatik olarak gelecektir)
+# Eğer dataset yoksa:
+# 1. Repo'yu yeniden clone edin, VEYA
+# 2. Download from Kaggle: https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset
+# 3. Place CSV file in data/raw/ directory
+# 4. Then process:
 python src/data_loader.py
 
 # Model Training
@@ -166,7 +187,7 @@ Select from the menu:
 2. Start FastAPI (http://localhost:8000)
 3. Start Streamlit App (http://localhost:8501)
 4. Train Model
-5. Process Dataset (Requires manual download)
+5. Process Dataset (Dataset repo'da mevcut)
 6. Test Inference
 7. Install All Dependencies
 8. Exit
