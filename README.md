@@ -62,7 +62,7 @@ Gaming companies need to segment their users to understand them better and provi
 ## Project Structure
 
 ```
-user-segmentation-ml-project/
+MultiGroup-Zero2End-Bootcamp-Project/
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
@@ -70,6 +70,11 @@ user-segmentation-ml-project/
 ├── streamlit_app.py          # Streamlit frontend
 ├── src/
 │   ├── app.py                # FastAPI REST API
+│   ├── config.py             # Configuration
+│   ├── data_loader.py        # Data loading
+│   ├── pipeline.py           # ML pipeline
+│   ├── inference.py          # Prediction functions
+│   └── download_dataset.py   # Kaggle dataset download
 ├── data/
 │   ├── raw/                  # Raw data
 │   └── processed/            # Processed data
@@ -80,16 +85,10 @@ user-segmentation-ml-project/
 │   ├── 04_Model_Optimization.ipynb
 │   ├── 05_Model_Evaluation.ipynb
 │   └── 06_Final_Pipeline.ipynb
-├── src/
-│   ├── config.py             # Configuration
-│   ├── data_loader.py        # Data loading
-│   ├── pipeline.py           # ML pipeline
-│   ├── inference.py          # Prediction functions
-│   └── download_dataset.py   # Kaggle dataset download
 ├── models/                   # Trained models
 ├── outputs/                  # Outputs
 ├── logs/                     # Log files
-└── docs/                     # Documentation
+└── tests/                    # Test files
 ```
 
 ## Technologies Used
@@ -116,8 +115,8 @@ user-segmentation-ml-project/
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd user-segmentation-ml-project
+git clone https://github.com/nacrezo/MultiGroup-Zero2End-Bootcamp-Project
+cd MultiGroup-Zero2End-Bootcamp-Project
 ```
 
 ### 2. Initial Setup
@@ -244,16 +243,14 @@ print(response.json())
 ### 3. Feature Engineering
 - Ratio features
 - Interaction features
-- Categorical encoding
-- Temporal features
-- Aggregate features
-- Feature selection
+- Categorical encoding (One-Hot Encoding)
+- Feature selection (Variance Threshold)
 
 ### 4. Model Optimization
 - Different clustering algorithms (K-Means, DBSCAN, Hierarchical)
 - Hyperparameter optimization
 - Grid search
-- Cross-validation
+- Parameter tuning for optimal cluster count
 
 ### 5. Model Evaluation
 - Silhouette score
@@ -317,7 +314,7 @@ Streamlit Cloud is the easiest way to deploy your Streamlit app for free.
 
 #### Streamlit Cloud Configuration
 
-The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settings.
+The project uses default Streamlit Cloud settings. You can create a `.streamlit/config.toml` file for custom configuration if needed.
 
 #### Troubleshooting
 
@@ -357,8 +354,8 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
 
 ## Validation Schema
 
-- **Train/Test Split**: 80% train, 20% test
-- **Clustering Metrics**: Silhouette, Davies-Bouldin, Calinski-Harabasz
+- **Validation Approach**: Since this is unsupervised learning (clustering), we use the entire dataset for training. No train/test split is performed as clustering models don't require separate validation sets in the traditional sense.
+- **Clustering Metrics**: Silhouette Score, Davies-Bouldin Index, Calinski-Harabasz Index
 - **Business Validation**: Segment profiles aligned with business logic
 
 ## Model Production
