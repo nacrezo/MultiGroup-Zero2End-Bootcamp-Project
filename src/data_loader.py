@@ -68,11 +68,13 @@ def load_gaming_dataset(dataset_path: Path = None) -> pd.DataFrame:
         dataset_path = RAW_DATA_DIR
     
     # Try to find the dataset file
+    # Priority: Kaggle dataset first, then train.csv
     possible_files = [
-        'train.csv', 
-        'data.csv', 
+        'online_gaming_behavior_dataset.csv',  # Kaggle dataset
+        'predict_online_gaming_behavior_dataset.csv',
         'gaming_behavior.csv',
-        'predict_online_gaming_behavior_dataset.csv'
+        'train.csv',  # Fallback to cleaned version
+        'data.csv'
     ]
     train_file = None
     
@@ -95,9 +97,9 @@ def load_gaming_dataset(dataset_path: Path = None) -> pd.DataFrame:
     df = pd.read_csv(train_file)
     
     # Standardize column names
-    # The app expects: 'AchievementUnlocked', Kaggle might have 'AchievementsUnlocked'
+    # The app expects: 'AchievementUnlocked', Kaggle has 'AchievementsUnlocked'
     rename_map = {
-        'AchievementsUnlocked': 'AchievementUnlocked',
+        'AchievementsUnlocked': 'AchievementUnlocked',  # Kaggle uses plural
         'achievements_unlocked': 'AchievementUnlocked',
         'user_id': 'PlayerID',
         'age': 'Age',
@@ -112,6 +114,11 @@ def load_gaming_dataset(dataset_path: Path = None) -> pd.DataFrame:
         'player_level': 'PlayerLevel',
     }
     df.rename(columns=rename_map, inplace=True)
+    
+    # Drop EngagementLevel if it exists (not used in model, might be target variable)
+    if 'EngagementLevel' in df.columns:
+        logger.info("Dropping 'EngagementLevel' column (not used in segmentation model)")
+        df = df.drop(columns=['EngagementLevel'])
     
     # Verify required columns exist
     required_cols = [

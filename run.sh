@@ -60,14 +60,14 @@ show_menu() {
     echo -e "\n${BLUE}========================================${NC}"
     echo -e "${BLUE}  Gaming User Segmentation - ML Project${NC}"
     echo -e "${BLUE}========================================${NC}\n"
-    echo "1) 📊 Jupyter Notebook'ları Başlat"
-    echo "2) 🚀 FastAPI'yi Başlat (http://localhost:8000)"
-    echo "3) 🎨 Streamlit Uygulamasını Başlat (http://localhost:8501)"
-    echo "4) 🤖 Modeli Eğit"
-    echo "5) 📥 Dataset İşle (Kaggle verisini hazırlar)"
-    echo "6) 🧪 Inference Testi"
-    echo "7) 📦 Tüm Bağımlılıkları Yükle"
-    echo "8) ❌ Çıkış"
+    echo "1) Jupyter Notebook'lari Baslat"
+    echo "2) FastAPI'yi Baslat (http://localhost:8000)"
+    echo "3) Streamlit Uygulamasini Baslat (http://localhost:8501)"
+    echo "4) Modeli Egit"
+    echo "5) Dataset Isle (Kaggle verisini hazirlar)"
+    echo "6) Inference Testi"
+    echo "7) Tum Bagimliliklari Yukle"
+    echo "8) Cikis"
     echo -e "\n"
 }
 
@@ -76,21 +76,21 @@ install_dependencies() {
     echo -e "${YELLOW}Bağımlılıklar yükleniyor...${NC}"
     pip install --upgrade pip --quiet
     pip install -r requirements.txt --quiet
-    echo -e "${GREEN}✅ Bağımlılıklar yüklendi${NC}"
+    echo -e "${GREEN}[OK] Bagimliliklar yuklendi${NC}"
 }
 
 # Dataset oluştur
 create_dataset() {
     echo -e "${YELLOW}Dataset işleniyor...${NC}"
     python src/data_loader.py
-    echo -e "${GREEN}✅ Dataset hazırlandı (data/raw/train.csv)${NC}"
+    echo -e "${GREEN}[OK] Dataset hazirlandi (data/raw/train.csv)${NC}"
 }
 
 # Model eğit
 train_model() {
     echo -e "${YELLOW}Model eğitiliyor...${NC}"
     python src/pipeline.py
-    echo -e "${GREEN}✅ Model eğitildi${NC}"
+    echo -e "${GREEN}[OK] Model egitildi${NC}"
 }
 
 # Inference test

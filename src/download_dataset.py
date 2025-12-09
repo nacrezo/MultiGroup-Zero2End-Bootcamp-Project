@@ -12,7 +12,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.config import RAW_DATA_DIR
-from src.data_loader import download_kaggle_dataset, create_sample_gaming_dataset, load_gaming_dataset
+from src.data_loader import download_kaggle_dataset, load_gaming_dataset
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ def main():
     try:
         df = load_gaming_dataset(RAW_DATA_DIR)
         if df is not None and len(df) > 0:
-            logger.info(f"✅ Existing dataset found with {len(df)} rows")
+            logger.info(f"[OK] Existing dataset found with {len(df)} rows")
             logger.info("Dataset already available. Skipping download.")
             return
     except FileNotFoundError:
@@ -61,7 +61,7 @@ def main():
             # İndirilen dataset'i kontrol et
             df = load_gaming_dataset(RAW_DATA_DIR)
             if df is not None and len(df) >= 10000:  # Minimum 10k rows requirement
-                logger.info(f"✅ Dataset downloaded successfully!")
+                logger.info(f"[OK] Dataset downloaded successfully!")
                 logger.info(f"   Rows: {len(df)}, Columns: {len(df.columns)}")
                 dataset_downloaded = True
                 break
@@ -73,10 +73,10 @@ def main():
             logger.info("Trying next dataset...")
             continue
     
-    # Eğer hiçbir dataset indirilemediyse, sample dataset oluştur
+    # Eğer hiçbir dataset indirilemediyse, kullanıcıya bilgi ver
     if not dataset_downloaded:
         logger.info("\n" + "=" * 60)
-        logger.info("Could not download from Kaggle. Creating sample dataset...")
+        logger.info("Could not download from Kaggle.")
         logger.info("=" * 60)
         logger.info("\nTo use a real Kaggle dataset:")
         logger.info("1. Go to https://www.kaggle.com/datasets")
@@ -86,11 +86,7 @@ def main():
         logger.info("   - At least 10 features")
         logger.info("   - Tabular format (CSV)")
         logger.info("4. Place the CSV file in data/raw/ directory")
-        logger.info("\nFor now, creating a realistic sample dataset...")
-        
-        df = create_sample_gaming_dataset(n_samples=20000, save_path=RAW_DATA_DIR / "train.csv")
-        logger.info(f"✅ Sample dataset created with {len(df)} rows and {len(df.columns)} features")
-        logger.info("This dataset can be used for development and testing.")
+        logger.info("\nRecommended dataset: rabieelkharoua/predict-online-gaming-behavior-dataset")
 
 if __name__ == "__main__":
     main()

@@ -108,11 +108,12 @@ async def predict_segment(user: UserFeatures):
         # Predict
         cluster = predict_user_segment(user_dict, pipeline)
         
+        # Updated segment names based on actual cluster analysis
         segment_names = {
-            0: "Action & Sports Fans",
-            1: "Simulation Enthusiasts",
-            2: "Strategy Masterminds",
-            3: "RPG Adventurers"
+            0: "Action & Sports Fans",  # Action dominant, mixed with Sports/Strategy
+            1: "Sports & Strategy Players",  # Sports dominant, mixed with Strategy/Action
+            2: "RPG Adventurers",  # 100% RPG
+            3: "Simulation Enthusiasts"  # 100% Simulation
         }
         
         return SegmentationResponse(

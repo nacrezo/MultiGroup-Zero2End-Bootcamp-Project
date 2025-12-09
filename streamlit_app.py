@@ -20,7 +20,7 @@ from src.config import MODELS_DIR, BUSINESS_RULES
 # Page configuration
 st.set_page_config(
     page_title="Gaming User Segmentation",
-    page_icon="🎮",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -58,7 +58,7 @@ if 'pipeline' not in st.session_state:
 def main():
     """Main application function."""
     # Header
-    st.markdown('<div class="main-header">🎮 Gaming User Segmentation Dashboard</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">Gaming User Segmentation Dashboard</div>', unsafe_allow_html=True)
     
     # Sidebar
     with st.sidebar:
@@ -69,7 +69,7 @@ def main():
         )
     
     if not st.session_state.model_loaded:
-        st.error(f"❌ Model not loaded: {st.session_state.get('model_error', 'Unknown error')}")
+        st.error(f"Model not loaded: {st.session_state.get('model_error', 'Unknown error')}")
         st.info("Please train the model first by running: python src/pipeline.py")
         return
     
@@ -139,16 +139,21 @@ def single_prediction_page():
             segment = predict_user_segment(user_data, st.session_state.pipeline)
         
             # Segment names derived from cluster analysis (mainly Genre-based differentiation)
+            # Updated based on actual segment analysis:
+            # Segment 0: Action dominant (33.8%), also Sports (33.2%) and Strategy (33.0%)
+            # Segment 1: Sports dominant (33.7%), also Strategy (33.6%) and Action (32.7%)
+            # Segment 2: RPG dominant (100%)
+            # Segment 3: Simulation dominant (100%)
             segment_names = {
-                0: "Action & Sports Fans",
-                1: "Simulation Enthusiasts",
-                2: "Strategy Masterminds",
-                3: "RPG Adventurers"
+                0: "Action & Sports Fans",  # Action dominant, mixed with Sports/Strategy
+                1: "Sports & Strategy Players",  # Sports dominant, mixed with Strategy/Action
+                2: "RPG Adventurers",  # 100% RPG
+                3: "Simulation Enthusiasts"  # 100% Simulation
             }
             
             segment_name = segment_names.get(segment, f"Segment {segment}")
             
-            st.success(f"✅ Predicted Segment: **{segment} - {segment_name}**")
+            st.success(f"Predicted Segment: **{segment} - {segment_name}**")
             
             # Show segment profile
             try:
@@ -181,7 +186,7 @@ def batch_prediction_page():
             segments = predict_batch(df, st.session_state.pipeline)
             df['segment'] = segments
             
-            st.success(f"✅ Segmented {len(df)} users")
+            st.success(f"Segmented {len(df)} users")
             st.dataframe(df)
             
             # Segment distribution
@@ -210,19 +215,36 @@ def segment_analysis_page():
             col1, col2 = st.columns(2)
             
             with col1:
+                # Define colors for each segment
+                colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12']  # Blue, Red, Green, Orange
+                
                 fig = px.pie(
                     values=segment_counts.values,
                     names=[f"Segment {i}" for i in segment_counts.index],
-                    title="Segment Distribution"
+                    title="Segment Distribution",
+                    color_discrete_sequence=colors
                 )
                 st.plotly_chart(fig, use_container_width=True)
             
             with col2:
-                fig = px.bar(
-                    x=segment_counts.index,
-                    y=segment_counts.values,
-                    labels={'x': 'Segment', 'y': 'User Count'},
-                    title="Segment Sizes"
+                # Define colors for each segment
+                colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12']  # Blue, Red, Green, Orange
+                
+                # Create bar chart with custom colors
+                fig = go.Figure(data=[
+                    go.Bar(
+                        x=segment_counts.index,
+                        y=segment_counts.values,
+                        marker_color=[colors[i % len(colors)] for i in segment_counts.index],
+                        text=segment_counts.values,
+                        textposition='auto',
+                    )
+                ])
+                fig.update_layout(
+                    title="Segment Sizes",
+                    xaxis_title="Segment",
+                    yaxis_title="User Count",
+                    showlegend=False
                 )
                 st.plotly_chart(fig, use_container_width=True)
             

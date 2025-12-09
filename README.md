@@ -1,10 +1,10 @@
 # Gaming User Segmentation - ML Project
 
-🎮 **End-to-End Machine Learning Project for Gaming User Segmentation**
+**End-to-End Machine Learning Project for Gaming User Segmentation**
 
 This project is an end-to-end machine learning solution for user segmentation in the gaming industry. It segments users into meaningful groups based on behavioral and demographic features, enabling personalized strategies for each segment.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Project Overview](#project-overview)
 - [Problem Statement](#problem-statement)
@@ -18,18 +18,18 @@ This project is an end-to-end machine learning solution for user segmentation in
 - [Results](#results)
 - [Contact](#contact)
 
-## 🎯 Project Overview
+## Project Overview
 
 This project uses **unsupervised learning** (K-Means clustering) to segment gaming users based on behavioral metrics. Each segment can be used for different marketing strategies and in-game experiences.
 
 ### Business Impact
 
-- ✅ **Personalized Marketing**: Custom campaigns for each segment
-- ✅ **User Retention**: Segment-based retention strategies
-- ✅ **Revenue Optimization**: Identify high-value users
-- ✅ **Product Development**: Feature optimization based on segment needs
+- **Personalized Marketing**: Custom campaigns for each segment
+- **User Retention**: Segment-based retention strategies
+- **Revenue Optimization**: Identify high-value users
+- **Product Development**: Feature optimization based on segment needs
 
-## 🔍 Problem Statement
+## Problem Statement
 
 Gaming companies need to segment their users to understand them better and provide the most suitable experience. This project:
 
@@ -43,7 +43,7 @@ Gaming companies need to segment their users to understand them better and provi
 - **Feature Engineering**: Behavioral metrics and engagement scores
 - **Segment Profiling**: Analyzing characteristics of each segment
 
-## 📊 Dataset
+## Dataset
 
 ### Dataset Characteristics
 
@@ -59,7 +59,7 @@ Gaming companies need to segment their users to understand them better and provi
 - **Engagement**: InGamePurchases, PlayerLevel, AchievementUnlocked, EngagementLevel
 - **Identity**: PlayerID
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 user-segmentation-ml-project/
@@ -67,8 +67,9 @@ user-segmentation-ml-project/
 ├── README.md
 ├── requirements.txt
 ├── run.sh                    # Single command runner
-├── app.py                    # FastAPI REST API
 ├── streamlit_app.py          # Streamlit frontend
+├── src/
+│   ├── app.py                # FastAPI REST API
 ├── data/
 │   ├── raw/                  # Raw data
 │   └── processed/            # Processed data
@@ -91,7 +92,7 @@ user-segmentation-ml-project/
 └── docs/                     # Documentation
 ```
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Machine Learning
 - **Scikit-learn**: K-Means clustering, preprocessing
@@ -110,7 +111,7 @@ user-segmentation-ml-project/
 - **Kaggle API**: Dataset download
 - **Joblib**: Model save/load
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -151,9 +152,9 @@ python src/data_loader.py
 python src/pipeline.py
 ```
 
-## 💻 Usage
+## Usage
 
-### 🚀 Single Command Runner
+### Single Command Runner
 
 Run all operations with a single script:
 
@@ -162,14 +163,14 @@ Run all operations with a single script:
 ```
 
 Select from the menu:
-1. 📊 Start Jupyter Notebooks
-2. 🚀 Start FastAPI (http://localhost:8000)
-3. 🎨 Start Streamlit App (http://localhost:8501)
-4. 🤖 Train Model
-5. 📥 Process Dataset (Requires manual download)
-6. 🧪 Test Inference
-7. 📦 Install All Dependencies
-8. ❌ Exit
+1. Start Jupyter Notebooks
+2. Start FastAPI (http://localhost:8000)
+3. Start Streamlit App (http://localhost:8501)
+4. Train Model
+5. Process Dataset (Requires manual download)
+6. Test Inference
+7. Install All Dependencies
+8. Exit
 
 ### REST API Usage
 
@@ -225,7 +226,7 @@ print(response.json())
 # 6. 06_Final_Pipeline.ipynb - Final pipeline
 ```
 
-## 📓 Notebooks
+## Notebooks
 
 ### 1. EDA (Exploratory Data Analysis)
 - Problem definition
@@ -267,13 +268,13 @@ print(response.json())
 - Model saving
 - Production pipeline
 
-## 🚢 Deployment
+## Deployment
 
 ### Local Deployment
 
 ```bash
 # FastAPI
-uvicorn app:app --host 0.0.0.0 --port 8000
+uvicorn src.app:app --host 0.0.0.0 --port 8000
 
 # Streamlit
 streamlit run streamlit_app.py
@@ -336,7 +337,7 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
   - Start command: `streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0`
 - **Heroku**: Use the provided `Procfile` for deployment
 
-## 📈 Results
+## Results
 
 ### Baseline Model
 - **Silhouette Score**: ~0.30-0.35
@@ -349,19 +350,18 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
 - **Features**: 15-30 features
 
 ### Segments
-### Segments
-1. **Action & Sports Fans**: Users who primarily play Action and Sports games
-2. **Simulation Enthusiasts**: Users focused on Simulation games
-3. **Strategy Masterminds**: Users dedicated to Strategy games
-4. **RPG Adventurers**: Users who prefer Role-Playing Games
+1. **Action & Sports Fans**: Users who primarily play Action and Sports games (mixed with Strategy)
+2. **Sports & Strategy Players**: Users focused on Sports and Strategy games (mixed with Action)
+3. **RPG Adventurers**: Users who prefer Role-Playing Games (100% RPG)
+4. **Simulation Enthusiasts**: Users focused on Simulation games (100% Simulation)
 
-## 📝 Validation Schema
+## Validation Schema
 
 - **Train/Test Split**: 80% train, 20% test
 - **Clustering Metrics**: Silhouette, Davies-Bouldin, Calinski-Harabasz
 - **Business Validation**: Segment profiles aligned with business logic
 
-## 🔄 Model Production
+## Model Production
 
 ### Monitoring Metrics
 
@@ -375,13 +375,13 @@ The project includes `.streamlit/config.toml` for optimal Streamlit Cloud settin
 - Retraining when new features are added
 - Retraining when segment distribution changes
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [Example Project](https://github.com/enesmanan/credit-risk-model)
 - [Made with ML](https://madewithml.com/)
 - [ML Engineering Book](https://soclibrary.futa.edu.ng/books/Machine%20Learning%20Engineering%20(Andriy%20Burkov)%20(Z-Library).pdf)
 
-## 📑 Project Report
+## Project Report
 
 Below are the answers to the questions required by the bootcamp requirements:
 
@@ -389,7 +389,7 @@ Below are the answers to the questions required by the bootcamp requirements:
 The goal is to segment users in the gaming industry based on their behavioral characteristics (play time, spending, session frequency, etc.). The objective is to develop personalized marketing and in-game strategies for each segment to increase user loyalty and revenue.
 
 ### 2. Baseline Process and Score
-At the beginning of the project, a simple K-Means model was established using only 4 basic features (PlayTime, InGamePurchases, SessionsPerWeek, PlayerLevel).
+At the beginning of the project, a simple K-Means model was established using only 4 basic features (SessionsPerWeek, PlayTimeHours, InGamePurchases, PlayerLevel).
 - **Baseline Silhouette Score**: ~0.35
 - **Baseline Davies-Bouldin Index**: ~1.50
 These scores indicated that the model needed improvement.
@@ -401,8 +401,8 @@ These scores indicated that the model needed improvement.
 - **Missing Value Imputation**: Missing data were filled using the Median strategy to prevent data loss.
 
 ### 4. Validation Scheme
-- **Train/Test Split**: Split as 80% Train, 20% Test. Since this is unsupervised learning, the test set was used to measure consistency (stability) on unseen data.
-- **Metrics**: Silhouette Score (intra-cluster similarity vs. inter-cluster separation) was chosen as the primary metric.
+- **Validation Approach**: Since this is unsupervised learning (clustering), we use the entire dataset for training. No train/test split is performed as clustering models don't require separate validation sets in the traditional sense.
+- **Metrics**: Silhouette Score (intra-cluster similarity vs. inter-cluster separation), Davies-Bouldin Index, and Calinski-Harabasz Index were used to evaluate clustering quality.
 
 ### 5. Final Pipeline and Feature Set Selection
 Based on experiments in the `05_Model_Evaluation.ipynb` notebook:
@@ -424,14 +424,14 @@ The model was exported as `user_segmentation_pipeline.pkl` and deployed using Fa
 - **Model Drift**: Deviation of incoming new data distribution from training data.
 - **Segment Distribution**: Percentage distribution of segments on a weekly basis (e.g., sudden disappearance of a segment could indicate a technical issue or trend change).
 
-## 👤 Contact
+## Contact
 
 - **Author**: Can Özer
 - **Email**: canozer.pirireis@gmail.com
 - **LinkedIn**: https://www.linkedin.com/in/canozer1/
 - **Project Link**: https://github.com/nacrezo/MultiGroup-Zero2End-Bootcamp-Project
 
-## 📄 License
+## License
 
 This project is for educational purposes.
 
