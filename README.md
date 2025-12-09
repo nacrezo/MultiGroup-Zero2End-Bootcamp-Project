@@ -288,6 +288,10 @@ print(response.json())
 
 ## Deployment
 
+### Live Application
+
+**Streamlit Dashboard**: [Deployment Link](https://multigroup-zero2end-bootcamp-project-q7xm2hgsvuv4cbx7lij66o.streamlit.app/)
+
 ### Local Deployment
 
 ```bash
@@ -297,63 +301,6 @@ uvicorn src.app:app --host 0.0.0.0 --port 8000
 # Streamlit
 streamlit run streamlit_app.py
 ```
-
-### Streamlit Cloud Deployment (Recommended)
-
-Streamlit Cloud is the easiest way to deploy your Streamlit app for free.
-
-#### Prerequisites
-
-1. **GitHub Repository**: Push your code to GitHub
-   ```bash
-   git add .
-   git commit -m "Prepare for Streamlit Cloud deployment"
-   git push origin main
-   ```
-
-2. **Model File**: Ensure `models/user_segmentation_pipeline.pkl` is committed to GitHub
-   - The `.gitignore` is configured to include the model file
-   - Verify: `git ls-files models/user_segmentation_pipeline.pkl`
-
-#### Deployment Steps
-
-1. **Sign up for Streamlit Cloud**
-   - Go to [https://streamlit.io/cloud](https://streamlit.io/cloud)
-   - Sign in with your GitHub account
-
-2. **Deploy Your App**
-   - Click "New app"
-   - Select your GitHub repository
-   - Choose the branch (usually `main`)
-   - Set the main file path: `streamlit_app.py`
-   - Click "Deploy"
-
-3. **Your App is Live!**
-   - Streamlit Cloud will automatically build and deploy your app
-   - You'll get a URL like: `https://your-app-name.streamlit.app`
-   - The app will automatically redeploy on every push to the main branch
-
-#### Streamlit Cloud Configuration
-
-The project uses default Streamlit Cloud settings. You can create a `.streamlit/config.toml` file for custom configuration if needed.
-
-#### Troubleshooting
-
-- **Model not found**: Ensure `models/user_segmentation_pipeline.pkl` is committed to GitHub
-- **Import errors**: Check that all dependencies are in `requirements.txt`
-- **Path issues**: The app uses relative paths that work on Streamlit Cloud
-
-### Alternative Cloud Deployment Options
-
-- **HuggingFace Spaces**: [https://huggingface.co/spaces](https://huggingface.co/spaces)
-  - Create a new Space
-  - Select Streamlit as SDK
-  - Upload your files
-- **Render**: [https://render.com](https://render.com)
-  - Create a new Web Service
-  - Build command: `pip install -r requirements.txt`
-  - Start command: `streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0`
-- **Heroku**: Use the provided `Procfile` for deployment
 
 ## Results
 
